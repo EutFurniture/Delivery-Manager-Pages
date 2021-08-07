@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Table} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert'
+import Axios from 'axios'
+import { Link, Switch } from "react-router-dom";
 
 const dateOnly = (d) => {
   const date = new Date(d);
@@ -13,6 +15,22 @@ const dateOnly = (d) => {
   return `${year} - ${month} - ${day}`;
 };
 
+const styles = {
+  viewbtn:{
+  backgroundColor: '#33b5e5',
+  width: '200px',
+  textDecoration: 'none',
+  height: '100px',
+  marginRight: '5px',
+  fontSize: '17px',
+  paddingLeft: '15px',
+  paddingRight: '15px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+  color: 'white',
+  borderRadius: '7px',
+},
+}
 
 class ViewDelivery extends Component{
   constructor(props) {
@@ -37,6 +55,15 @@ class ViewDelivery extends Component{
   }
   
     render(){
+
+      const viewDeliveryInfo =(order_id)=>{
+        console.log(order_id);
+        Axios.get(`http://localhost:3001/viewDeliveryInfo/${order_id}`);
+        if(order_id){
+          window.location.href='/dManager/pages/DeliveryInfo'
+        }
+      }
+
       //const { records } = this.state;
      return(
             <Table striped bordered hover responsive>
@@ -49,7 +76,6 @@ class ViewDelivery extends Component{
                   <th scope="col">Status</th>
                   <th scope="col">DeliverId</th>
                   <th scope="col">Action</th>
-
                 </tr>
               </thead>
 
@@ -64,8 +90,9 @@ class ViewDelivery extends Component{
                     <td>{record.o_status === "Completed" ? <Alert size = "small" variant="success">Completed</Alert> : record.o_status === "Returned" ? <Alert variant="danger">Returned</Alert> : record.o_status === "Pending" ? <Alert variant="secondary">Pending</Alert> : record.o_status}</td>
                     <td>{record.employee_id === 0 ? <Alert variant="warning">Not Assign</Alert> : record.employee_id}</td>
                     <td>
-                      <Button variant="primary">Update</Button>{' '}
-                      <Button variant="info">View</Button>{' '}</td>
+                        <Link style={styles.viewbtn} to={location=> `/DeliveryInfoRoute/${record.order_id}`}> View </Link>
+                        <Button variant="primary">Update</Button>{' '}
+                    </td>
                   </tr>
                    )
                  })}

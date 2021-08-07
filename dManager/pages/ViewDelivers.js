@@ -3,6 +3,39 @@ import { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Table} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
+import Axios from 'axios'
+import { Link, Switch } from "react-router-dom";
+
+const styles = {
+  viewbtn:{
+  backgroundColor: '#33b5e5',
+  width: '200px',
+  textDecoration: 'none',
+  height: '100px',
+  marginRight: '5px',
+  fontSize: '17px',
+  paddingLeft: '15px',
+  paddingRight: '15px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+  color: 'white',
+  borderRadius: '7px',
+},
+deletebtn:{
+  backgroundColor: '#CC0000',
+  width: '200px',
+  textDecoration: 'none',
+  height: '100px',
+  marginRight: '5px',
+  fontSize: '17px',
+  paddingLeft: '15px',
+  paddingRight: '15px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+  color: 'white',
+  borderRadius: '7px',
+},
+}
 
 class ViewDelivers extends Component{
   constructor(props) {
@@ -23,7 +56,22 @@ class ViewDelivers extends Component{
         });
       });
   }
+
+  
+
     render(){
+      const deleteDeliverPerson =(employee_id)=>{
+        Axios.delete(`http://localhost:3001/deleteDeliver/${employee_id}`);
+      }
+
+
+      const viewDeliverInfo =(employee_id)=>{
+        console.log(employee_id);
+        Axios.get(`http://localhost:3001/viewDeliver/${employee_id}`);
+        if(employee_id){
+          window.location.href='/dManager/pages/DeliverInfo'
+        }
+      }
       //const { records } = this.state;
      return(
         
@@ -35,7 +83,6 @@ class ViewDelivers extends Component{
                   <th scope="col">NIC</th>
                   <th scope="col">Mobile</th>
                   <th scope="col">Email</th>
-
                   <th>Action</th>
                 </tr>
               </thead>
@@ -51,10 +98,10 @@ class ViewDelivers extends Component{
                     <td>{record.e_email}</td>
                     
                     <td>
-                    <Button variant="info">View</Button>{' '}
+                    <Link style={styles.viewbtn} to={location=> `/DeliverInfoRoute/${record.employee_id}`}> View </Link>
                     <Button variant="warning">Edit</Button>{' '}
-                    <Button variant="danger">Delete</Button>
-                      
+                    <Link style={styles.deletebtn} onClick={()=>{deleteDeliverPerson(record.employee_id)}}>Delete</Link>
+                    
                     </td>
                   </tr>
                    )

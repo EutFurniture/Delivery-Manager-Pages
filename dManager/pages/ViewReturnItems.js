@@ -73,8 +73,8 @@ class ViewReturnItem extends Component{
                     </td>
                     <td>{record.return_status === "" ? <Alert variant="danger">Not completed</Alert> : record.return_status }</td>
                     <td>
-                      <Button variant="primary">Update</Button>{" "} 
-                      <Button variant="info">View</Button>
+                      <Button variant="success">Reschedule</Button>{" "} 
+                      <Button variant="primary">Update</Button>
                     </td>
                     
                   </tr>

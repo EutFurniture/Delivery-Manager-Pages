@@ -4,7 +4,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Table} from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { Alert } from 'react-bootstrap';
+import Axios from 'axios'
+import { Link, Switch } from "react-router-dom";
 
+const styles = {
+  viewbtn:{
+  backgroundColor: '#33b5e5',
+  width: '200px',
+  textDecoration: 'none',
+  height: '100px',
+  marginRight: '5px',
+  fontSize: '17px',
+  paddingLeft: '15px',
+  paddingRight: '15px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+  color: 'white',
+  borderRadius: '7px',
+},
+}
 
 class ViewCashOnDelivery extends Component{
   constructor(props) {
@@ -28,6 +46,14 @@ class ViewCashOnDelivery extends Component{
   }
 
     render(){
+      const viewCash =(order_id)=>{
+        console.log(order_id);
+        Axios.get(`http://localhost:3001/CashOnDeliveryInfo/${order_id}`);
+        if(order_id){
+          window.location.href='/dManager/pages/CashOnDeliveryInfo'
+        }
+      }
+
       //const { records } = this.state;
      return(  
   
@@ -53,8 +79,9 @@ class ViewCashOnDelivery extends Component{
                     <td>{record.payment_status === "Paid" ? <Alert variant="success">Paid</Alert> : <Alert variant="secondary">Advance Paid</Alert>}</td>
                     <td>{record.o_status === "Completed" ? <Alert variant="success">Completed</Alert> : record.o_status === "Returned" ? <Alert variant="danger">Returned</Alert> : record.o_status === "Pending" ? <Alert variant="secondary">Pending</Alert> : record.o_status}</td>                    
                     <td>
-                      <Button variant="primary">Update</Button>{" "} 
-                      <Button variant="info">View</Button>
+                    <Link style={styles.viewbtn} to={location=> `/CashOnDeliveryInfoRoute/${record.order_id}`}> View </Link>
+                    <Button variant="primary">Update</Button> 
+                      
                     </td>
                     
                   </tr>

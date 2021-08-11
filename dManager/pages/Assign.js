@@ -1,11 +1,29 @@
-import React from 'react';
-import { Component } from 'react';
+import React,{ useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Table} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
+import axios from "axios";
+
+const styles = {
+
+okbtn:{
+  backgroundColor: '#007E33',
+  width: '200px',
+  textDecoration: 'none',
+  height: '100px',
+  marginRight: '5px',
+  fontSize: '17px',
+  paddingLeft: '15px',
+  paddingRight: '15px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+  color: 'white',
+  borderRadius: '7px',
+},
+}
 
 const dateOnly = (d) => {
   const date = new Date(d);
@@ -15,30 +33,35 @@ const dateOnly = (d) => {
   return `${year} - ${month} - ${day}`;
 };
 
+export default function Assign()
+{
+    const [AssignList,setAssignList]=useState([])
+    useEffect(()=>{
+      axios.get('http://localhost:3001/Assign').then((response)=>{
+        setAssignList(response.data)
+      })
+    },[])
 
-class Assign extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      records: [],
-      isLoaded: false,
-    };
-  }
+    const [deliverList,setdeliverList]=useState([])
+    useEffect(()=>{
+      axios.get('http://localhost:3001/deliverid').then((response)=>{
+        setdeliverList(response.data)
+      })
+    }, [])
 
-  componentDidMount() {
-    fetch('http://localhost:3001/Assign')
-      .then(res => res.json())
-      .then(result => {
-        this.setState({
-          isLoaded: true,
-          records: result,
-        });
-      });
+    const [Deliver_id,setDeliver_id] = useState();
+    const AssignDelivers = (order_id) =>{
+      axios.put('http://localhost:3001/AssignDeliver', {
+        order_id:order_id,
+        Deliver_id:Deliver_id
+      }).then(
+        (response) => {
+          alert("Deliver Assigned Successfully");
+        }
+      )
+    }
+   
       
-  }
-
-    render(){
-      //const { records } = this.state;
      return(  
   
               <Table striped bordered hover responsive>
@@ -53,7 +76,7 @@ class Assign extends Component{
               </thead>
 
              <tbody>
-                 {this.state.records.map((record)=>{
+                {AssignList.map((record, key) =>{
                    return(
                     <tr>
                     <th scope="row">{record.order_id}</th>
@@ -64,14 +87,19 @@ class Assign extends Component{
                         <Form >
                         <Form.Group as={Row} controlId="formHorizontalID">
                         <Col sm={10}>
-                            <Form.Control type="text" placeholder="Deliver Id"  />
+                            <Form.Control as="Select" name="id" onChange={(event) =>{setDeliver_id(event.target.value);}} required>
+                              <option>Select Deliver</option>
+                              {deliverList.map((record) => {return(
+                                <option value={record.employee_id}>{record.employee_id}</option>
+                              )})}
+                            </Form.Control>
                         </Col>
                         </Form.Group><br/>
                         </Form>
                     </td>
                     <td>
-                      <Button variant="primary">Assign</Button>{' '}
-                      <Button variant="warning">Edit</Button>{' '}</td>
+                    <Link style={styles.okbtn} onClick={() => {AssignDelivers(record.order_id)}} > Assign </Link>
+                    </td>
                   </tr>
                    )
                  })}
@@ -80,7 +108,5 @@ class Assign extends Component{
            
     
      )
-    }
-}
+  }
 
-export default Assign;

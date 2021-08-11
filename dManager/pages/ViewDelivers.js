@@ -2,9 +2,8 @@ import React from 'react';
 import { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Table} from 'react-bootstrap';
-import {Button} from 'react-bootstrap';
 import Axios from 'axios'
-import { Link, Switch } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const styles = {
   viewbtn:{
@@ -23,6 +22,20 @@ const styles = {
 },
 deletebtn:{
   backgroundColor: '#CC0000',
+  width: '200px',
+  textDecoration: 'none',
+  height: '100px',
+  marginRight: '5px',
+  fontSize: '17px',
+  paddingLeft: '15px',
+  paddingRight: '15px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+  color: 'white',
+  borderRadius: '7px',
+},
+editbtn:{
+  backgroundColor: '#ffbb33',
   width: '200px',
   textDecoration: 'none',
   height: '100px',
@@ -63,16 +76,7 @@ class ViewDelivers extends Component{
       const deleteDeliverPerson =(employee_id)=>{
         Axios.delete(`http://localhost:3001/deleteDeliver/${employee_id}`);
       }
-
-
-      const viewDeliverInfo =(employee_id)=>{
-        console.log(employee_id);
-        Axios.get(`http://localhost:3001/viewDeliver/${employee_id}`);
-        if(employee_id){
-          window.location.href='/dManager/pages/DeliverInfo'
-        }
-      }
-      //const { records } = this.state;
+      
      return(
         
               <Table striped bordered hover responsive>
@@ -99,9 +103,8 @@ class ViewDelivers extends Component{
                     
                     <td>
                     <Link style={styles.viewbtn} to={location=> `/DeliverInfoRoute/${record.employee_id}`}> View </Link>
-                    <Button variant="warning">Edit</Button>{' '}
+                    <Link style={styles.editbtn} to={location=> `/EditDeliversRoute/${record.employee_id}`}> Edit </Link>
                     <Link style={styles.deletebtn} onClick={()=>{deleteDeliverPerson(record.employee_id)}}>Delete</Link>
-                    
                     </td>
                   </tr>
                    )

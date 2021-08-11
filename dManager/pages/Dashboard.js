@@ -19,6 +19,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 
 import { mainListItems, Logout, Profile } from './listItems';
@@ -163,6 +164,9 @@ export default function Dashboard() {
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
+          </IconButton>
+          <IconButton color="inherit" fontSize="inherit">
+           <AccountCircleIcon   />
           </IconButton>
         </Toolbar>
       </AppBar>

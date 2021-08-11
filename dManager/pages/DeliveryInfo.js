@@ -19,7 +19,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import {useParams} from 'react-router-dom'
-import {Link} from 'react-router-dom';
+import { ListGroup,Alert } from "react-bootstrap";
 
 import { mainListItems, Logout, Profile } from './listItems';
 
@@ -103,8 +103,8 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
-    marginTop:'20px',
-    marginLeft:'100px',
+    alignContent:'center',
+    align:'center',
   },
   paper: {
     padding: theme.spacing(2),
@@ -120,9 +120,22 @@ const useStyles = makeStyles((theme) => ({
 const styles = {
   side:{
     backgroundColor:'rgb(37, 37, 94)',
+  },
+
+  card:{
+    display:"flex",
+    flexDirection :"row",
+    justifyContent:"space-between",
   }
 };
 
+const dateOnly = (d) => {
+  const date = new Date(d);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year} - ${month} - ${day}`;
+};
 
 export default function DeliveryInfo() {
   const { order_id } = useParams();
@@ -135,14 +148,15 @@ export default function DeliveryInfo() {
               order_id: order_id,
               
           }
+          
       });
 
       setDt(response.data[0]);
          console.log(response.data[0]);
+
   };
   fetchData();
 }, [order_id]);
-
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -203,24 +217,60 @@ export default function DeliveryInfo() {
       </Drawer>
       </div>
      
-      <main style={{backgroundColor: '#f0f8ff'}} className={classes.content}>
+      <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container  maxWidth="lg" className={classes.container}>
-        
-        <Grid  container spacing={10}>
-        {/* Recent Orders */}
-        <Grid item xs={10}  direction="row"  >
-        
-        <div >
-           <Paper className={classes.paper}>
-              
-          
-          </Paper>
-         
-         </div>
-        </Grid>
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+                  
+           
+            <Grid item xs={12}  direction="row"  >
+            <div >
+              <Paper className={classes.paper}>
+              <Typography component="h1" variant="h6" color="inherit" align="center" width="100%" noWrap className={classes.title}>
+                    <strong> DELIVERY  INFORMATION</strong>
+              </Typography>
+              <br></br>
+              <div align="center" style={{fontSize:'15px'}}>
+                
+              <ListGroup style={{ width: '20rem',textAlign: 'left'}}>
+                  <ListGroup.Item  active> Order Details</ListGroup.Item>
+                  <ListGroup.Item >Order Id : {Dt.order_id} </ListGroup.Item>
+                  <ListGroup.Item > Order Description : {Dt.o_description} </ListGroup.Item>
+                  <ListGroup.Item >Order Date : {dateOnly(Dt.o_date)}</ListGroup.Item>
+                  <ListGroup.Item >Last Date : {dateOnly(Dt.order_last_date)}</ListGroup.Item>
 
-      </Grid>
+              </ListGroup>
+              
+              <br></br>
+              <div style={styles.card} >
+                
+              <ListGroup style={{ width: '20rem',textAlign: 'left'}}>
+                  <ListGroup.Item  active> Customer Details</ListGroup.Item>
+                  <ListGroup.Item >Name : {Dt.c_name} </ListGroup.Item>
+                  <ListGroup.Item > Email : {Dt.c_email} </ListGroup.Item>
+                  <ListGroup.Item >Phone Number  : {Dt.c_phone_no}</ListGroup.Item>
+                  <ListGroup.Item >Address : {Dt.c_address}</ListGroup.Item>
+
+              </ListGroup>
+              
+                
+                <ListGroup style={{ width: '20rem',textAlign: 'left'}}>
+                    <ListGroup.Item  active> Delivery Details</ListGroup.Item>
+                    <ListGroup.Item >Deliver Id : {Dt.employee_id} </ListGroup.Item>
+                    <ListGroup.Item > Delivery Date : {dateOnly(Dt.o_d_date)} </ListGroup.Item>
+                    <ListGroup.Item >Delivery Status : {Dt.o_status}</ListGroup.Item>
+                    <ListGroup.Item>{Dt.o_status === "Completed" ? <Alert size = "small" variant="success"></Alert > : Dt.o_status === "Returned" ? <Alert  variant="danger"></Alert > : Dt.o_status === "Pending" ? <Alert  variant="secondary"></Alert > : <Alert variant="primary"></Alert > }</ListGroup.Item>
+  
+                </ListGroup>
+                
+                </div>
+                </div>
+              </Paper>
+              </div>
+            </Grid>
+ 
+          </Grid>
+          
           
         </Container>
       </main>

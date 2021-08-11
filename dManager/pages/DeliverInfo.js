@@ -19,7 +19,6 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import {useParams} from 'react-router-dom'
-import {Link} from 'react-router-dom';
 
 import { mainListItems, Logout, Profile } from './listItems';
 
@@ -103,8 +102,8 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
-    marginTop:'20px',
-    marginLeft:'100px',
+    alignContent:'center',
+    align:'center',
   },
   paper: {
     padding: theme.spacing(2),
@@ -250,9 +249,9 @@ export default function DeliverInfo() {
         <div className={classes.appBarSpacer} />
         <Container  maxWidth="lg" className={classes.container}>
         
-        <Grid  container spacing={10}>
+        <Grid  container spacing={3}>
         {/* Recent Orders */}
-        <Grid item xs={10}  direction="row"  >
+        <Grid item xs={12}  direction="row"  >
         
         <div >
            <Paper className={classes.paper}>

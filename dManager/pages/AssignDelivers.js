@@ -228,7 +228,7 @@ export default function AssignDelivers() {
                 <div >
                   <Paper className={classes.paper}>
                   <div align="right"> 
-                  <Button onClick={getStatus} type="submit" size='lg'><ViewStreamIcon/> View Delivers</Button>
+                  <Button onClick={getStatus} type="submit" size='lg'><ViewStreamIcon/> Pending</Button>
                   </div>
                   <div  style={styles.card}>
                   {statusList.map((val, key) => {

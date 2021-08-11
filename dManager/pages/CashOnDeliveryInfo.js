@@ -19,7 +19,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import {useParams} from 'react-router-dom'
-import {Link} from 'react-router-dom';
+import { Form,Row,Col } from "react-bootstrap";
 
 import { mainListItems, Logout, Profile } from './listItems';
 
@@ -103,8 +103,8 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
-    marginTop:'20px',
-    marginLeft:'100px',
+    alignContent:'center',
+    align:'center',
   },
   paper: {
     padding: theme.spacing(2),
@@ -120,11 +120,30 @@ const useStyles = makeStyles((theme) => ({
 const styles = {
   side:{
     backgroundColor:'rgb(37, 37, 94)',
-  }
+  },
+
+  card:{
+    display:"flex",
+    flexDirection :"row",
+    justifyContent:"space-between",
+  },
+
+  pack:{
+    justifyContent:'flex-around',
+    marginLeft:'20px'
+  }  
 };
 
 
-export default function CashOnDeliveryInfo() {
+const dateOnly = (d) => {
+  const date = new Date(d);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year} - ${month} - ${day}`;
+};
+
+export default function DeliveryInfo() {
   const { order_id } = useParams();
   const [Dt, setDt] = useState([])
  
@@ -135,14 +154,15 @@ export default function CashOnDeliveryInfo() {
               order_id: order_id,
               
           }
+          
       });
 
       setDt(response.data[0]);
          console.log(response.data[0]);
+
   };
   fetchData();
 }, [order_id]);
-
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -203,24 +223,119 @@ export default function CashOnDeliveryInfo() {
       </Drawer>
       </div>
      
-      <main style={{backgroundColor: '#f0f8ff'}} className={classes.content}>
+      <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container  maxWidth="lg" className={classes.container}>
-        
-        <Grid  container spacing={10}>
-        {/* Recent Orders */}
-        <Grid item xs={10}  direction="row"  >
-        
-        <div >
-           <Paper className={classes.paper}>
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+                  
+           
+          <Grid item xs={10} style={styles.pack} >
+            <div >
+              <Paper className={classes.paper}>
+              <Typography component="h1" variant="h6" color="inherit" align="center" width="100%" noWrap className={classes.title}>
+                    <strong> CASH ON DELIVERY INFORMATION</strong>
+              </Typography>
+              <br></br>
+              <div>
+                
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Order Id :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                   {Dt.order_id}
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Deliver Id :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                  {Dt.employee_id}
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Customer Id :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                  {Dt.customer_id}
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Total Price :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                  Rs.{Dt.total_price} .00
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Advance Price :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                   Rs.{Dt.advance_price} .00
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Payable Amount :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                    Rs.{Dt.total_price-Dt.advance_price} .00
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
               
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Payment Status :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                  {Dt.payment_status}
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Delivery Status :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                  {Dt.o_status}
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
+              <Form.Group as={Row} controlId="formHorizontalName">
+                  <Form.Label column lg={2} >
+                   Last Delivery Date :
+                  </Form.Label>
+                  <Col >
+                  <Form.Label column lg={2} >
+                  {dateOnly(Dt.order_last_date)}
+                  </Form.Label>
+                  </Col>
+              </Form.Group><br/>
+              </div>
+              </Paper>
+              </div>
+            </Grid>
+ 
+          </Grid>
           
-          </Paper>
-         
-         </div>
-        </Grid>
-
-      </Grid>
           
         </Container>
       </main>

@@ -4,6 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Table} from 'react-bootstrap';
 import Title from './Title';
 
+const dateOnly = (d) => {
+  const date = new Date(d);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year} - ${month} - ${day}`;
+};
 
 class Orders extends Component{
   constructor(props) {
@@ -27,9 +34,6 @@ class Orders extends Component{
       
   }
 
- 
-
-  
     render(){
       //const { records } = this.state;
      return(
@@ -58,7 +62,7 @@ class Orders extends Component{
                      
                     <tr>
                     <th scope="row">{record.order_id}</th>
-                    <td>{record.order_last_date}</td>
+                    <td>{dateOnly(record.order_last_date)}</td>
                     <td>{record.c_name}</td>
                     <td>{record.c_address}</td>
                     <td>{record.o_status}</td>

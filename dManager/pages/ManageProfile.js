@@ -1,8 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import clsx from 'clsx';
-import Axios from 'axios';
-import { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -21,19 +19,11 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-// import Menu from '@material-ui/core/Menu';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import {Redirect} from "react-router-dom";
- import {Link} from 'react-router-dom';
-import ViewStreamIcon from '@material-ui/icons/ViewStream';
-import {Button} from 'react-bootstrap';
-import {Card} from 'react-bootstrap';
-//import CardColumns from 'react-bootstrap/CardColumns'
-//import CardDeck from 'react-bootstrap/CardDeck'
+import {Link} from 'react-router-dom';
+import { mainListItems, Logout, Profile } from './listItems';
 
-import { mainListItems, Logout,Profile } from './listItems';
-import Assign from './Assign';
+import ViewProfile from './ViewProfile';
+
 
 function Copyright() {
   return (
@@ -145,15 +135,13 @@ const styles = {
     justifyContent:'flex-around',
     marginLeft:'20px'
   }  ,
-  card:{
-    display:"flex",
-    flexDirection :"row",
-
-  }
   
 };
 
-export default function AssignDelivers() {
+
+
+
+export default function ManageProfile() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -162,33 +150,6 @@ export default function AssignDelivers() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
- 
-
-  // const[isAuth,setIsAuth]=useState(true);
-
-  // if(!isAuth){
-  //   return <Redirect to="" />
-  // }
-
-
-  const [statusList, setstatusList] = useState([]);
-
-  const getStatus = () => {
-    Axios.get("http://localhost:3001/viewStatus").then((response) => {
-      setstatusList(response.data)
-    })
-  }
 
   return (
     <div className={classes.root}>
@@ -212,16 +173,6 @@ export default function AssignDelivers() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-
-          {/* <IconButton color="inherit" fontSize="inherit">
-           <AccountCircleIcon onClick={handleClick}  />
-          </IconButton>
-
-          <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-            <MenuItem onClick={handleClose}><Link to='/dManager/pages/ManageProfile' style={{textDecoration:'none',color:'black'}}>Profile</Link></MenuItem>
-            <MenuItem onClick={()=>setIsAuth(false)}>Logout</MenuItem>
-          </Menu> */}
-          
         </Toolbar>
       </AppBar>
       <div style={styles.side}>
@@ -247,47 +198,23 @@ export default function AssignDelivers() {
         <Divider />
       </Drawer>
       </div>
-
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>   
-            <Typography component="h1" variant="h6" color="inherit"  width="100%" align="center" noWrap className={classes.title}>
-                  <strong> ASSIGN DELIVERS</strong>
-            </Typography>      
-            <Grid item xs={12}  direction="row" >
-                
-                <div >
-                  <Paper className={classes.paper}>
-                  <div align="right"> 
-                  <Button onClick={getStatus} type="submit" size='lg'><ViewStreamIcon/> Pending</Button>
-                  </div>
-                  <div  style={styles.card}>
-                  {statusList.map((val, key) => {
-                    return (
-                      <div>
-                        
-                        <Card style={{ width: '18rem' }} border="primary" >
-                          <Card.Header>DELIVER ID : {val.employee_id}</Card.Header>
-                          <Card.Body>
-                          <Card.Text>Name : {val.e_name}</Card.Text>
-                          <Card.Text>Scheduled : {val.pending}</Card.Text>
-                          
-                        </Card.Body>
-                        </Card>
-                        
-                      
-                      </div>
-                      
-                    )
-                  })}
-                  </div>
-                  
-                  <br/>
-                    <Assign/>
-                  </Paper>
-                </div>
+          <Grid container spacing={3}>
+
+            {/* Recent Orders */}
+            <Grid item xs={12}  direction="row"  >
+            
+  
+            <div >
+              
+              <Paper className={classes.paper}>
+                <ViewProfile/>
+              </Paper>
+              </div>
             </Grid>
+ 
           </Grid>
           
           <Box pt={4}>
@@ -299,5 +226,3 @@ export default function AssignDelivers() {
   );
 }
 
-
-   

@@ -79,14 +79,14 @@ export const mainListItems = (
 
 export const Profile = (
   <div>
-    <ListItem button>
+    <ListItem button component={Link} to="/dManager/pages/ManageProfile">
       <ListItemIcon style={{color:'white'}}>
         <EditIcon/>
       </ListItemIcon >
       <ListItemText primary="Edit Profile"/>
     </ListItem>
   </div>
-)
+);
 
 export const Logout = (
   <div>
@@ -97,4 +97,4 @@ export const Logout = (
       <strong><h2 >LOGOUT</h2></strong>
     </ListItem>
   </div>
-)
+);
